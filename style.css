@@ -1,54 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(#0b1d3a, #000);
+  background: radial-gradient(circle at top, #0d2b52, #000);
   color: white;
   text-align: center;
   overflow: hidden;
 }
 
+/* Header */
 header {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
-.controls button {
-  margin: 10px;
-  padding: 12px 20px;
-  font-size: 16px;
-  border-radius: 20px;
+h1 {
+  font-size: 42px;
+  text-shadow: 0 0 15px gold;
+}
+
+#countdown {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.actions button {
+  margin: 15px;
+  padding: 12px 24px;
+  border-radius: 30px;
   border: none;
-  cursor: pointer;
   background: crimson;
   color: white;
+  font-size: 16px;
+  cursor: pointer;
   transition: 0.3s;
 }
 
-.controls button:hover {
+.actions button:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 10px gold;
+  box-shadow: 0 0 15px gold;
 }
 
+/* Scene */
+.scene {
+  display: flex;
+  justify-content: center;
+  gap: 120px;
+  margin-top: 50px;
+}
+
+/* Tree */
 #tree {
-  font-size: 120px;
-  margin-top: 30px;
-  transition: 0.5s;
+  font-size: 140px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+#tree:hover {
+  transform: rotate(-5deg) scale(1.1);
 }
 
 .tree-on {
-  text-shadow: 0 0 20px gold;
+  text-shadow:
+    0 0 15px gold,
+    0 0 30px red,
+    0 0 50px lime;
 }
 
+/* Gift */
 #gift {
+  font-size: 120px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#gift:hover {
+  animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+/* Message */
+#message {
   margin-top: 20px;
-  font-size: 24px;
+  font-size: 26px;
+  text-shadow: 0 0 10px gold;
 }
 
 .hidden {
   display: none;
 }
 
+/* Light follow mouse */
+#light {
+  position: fixed;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(255,255,255,0.18), transparent);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Canvas */
 canvas {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
+  z-index: -1;
 }
