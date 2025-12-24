@@ -115,3 +115,69 @@ canvas {
   inset: 0;
   z-index: -1;
 }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(#0b1d3a, #102c54);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  color: white;
+}
+
+.container {
+  text-align: center;
+  animation: fadeIn 2s ease-in;
+}
+
+h1 {
+  font-size: 3em;
+  animation: glow 2s infinite alternate;
+}
+
+button {
+  margin-top: 20px;
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  border-radius: 30px;
+  background: #e63946;
+  color: white;
+  transition: transform 0.2s, background 0.2s;
+}
+
+button:hover {
+  transform: scale(1.1);
+  background: #ff4d5a;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #fff; }
+  to { text-shadow: 0 0 25px #ffdddd; }
+}
+
+/* Snow */
+.snow {
+  position: fixed;
+  top: -10px;
+  color: white;
+  user-select: none;
+  pointer-events: none;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
+}
