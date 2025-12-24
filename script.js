@@ -59,29 +59,19 @@ setInterval(() => {
 }, 1000);
 
 /* 🎵 Music – Web Audio API */
-let ctxAudio, osc, gain;
-let playing = false;
+/* 🎵 Music MP3 */
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
 
-document.getElementById("musicBtn").onclick = () => {
-  if (!playing) {
-    ctxAudio = new AudioContext();
-    osc = ctxAudio.createOscillator();
-    gain = ctxAudio.createGain();
+music.volume = 0.3; // âm lượng nhẹ
 
-    osc.type = "triangle";
-    osc.frequency.value = 523;
-    gain.gain.value = 0;
-
-    osc.connect(gain);
-    gain.connect(ctxAudio.destination);
-    osc.start();
-
-    gain.gain.linearRampToValueAtTime(0.12, ctxAudio.currentTime + 1);
-    document.getElementById("musicBtn").innerText = "🔇 Tắt nhạc";
+musicBtn.onclick = () => {
+  if (music.paused) {
+    music.play();
+    musicBtn.innerText = "🔇 Tắt nhạc";
   } else {
-    gain.gain.linearRampToValueAtTime(0, ctxAudio.currentTime + 0.5);
-    setTimeout(() => ctxAudio.close(), 600);
-    document.getElementById("musicBtn").innerText = "🎵 Bật nhạc";
+    music.pause();
+    musicBtn.innerText = "🎵 Bật nhạc";
   }
-  playing = !playing;
 };
+
