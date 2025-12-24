@@ -1,74 +1,87 @@
 /* ❄️ Snow */
 const canvas = document.getElementById("snow");
 const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
-const snowflakes = Array.from({ length: 150 }, () => ({
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.onresize = resize;
+
+const flakes = Array.from({ length: 180 }, () => ({
   x: Math.random() * canvas.width,
   y: Math.random() * canvas.height,
-  r: Math.random() * 4 + 1,
-  d: Math.random() * 1
+  r: Math.random() * 3 + 1,
+  s: Math.random() * 1 + 0.5
 }));
 
-function snow() {
+function drawSnow() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "white";
   ctx.beginPath();
-  snowflakes.forEach(f => {
+  flakes.forEach(f => {
     ctx.moveTo(f.x, f.y);
     ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    f.y += f.s;
+    if (f.y > canvas.height) f.y = 0;
   });
   ctx.fill();
-
-  snowflakes.forEach(f => {
-    f.y += f.d;
-    if (f.y > canvas.height) {
-      f.y = 0;
-      f.x = Math.random() * canvas.width;
-    }
-  });
+  requestAnimationFrame(drawSnow);
 }
-setInterval(snow, 30);
+drawSnow();
 
-/* 🎵 Music – Web Audio API */
-let audioCtx;
-let oscillator;
-let playing = false;
-
-function toggleMusic() {
-  if (!playing) {
-    audioCtx = new AudioContext();
-    oscillator = audioCtx.createOscillator();
-    oscillator.type = "triangle";
-    oscillator.frequency.value = 523; // Do cao
-    oscillator.connect(audioCtx.destination);
-    oscillator.start();
-  } else {
-    oscillator.stop();
-    audioCtx.close();
-  }
-  playing = !playing;
-}
-
-/* ⏳ Countdown */
-function updateCountdown() {
-  const christmas = new Date(new Date().getFullYear(), 11, 25);
-  const now = new Date();
-  const diff = christmas - now;
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  document.getElementById("countdown").innerText =
-    days >= 0 ? `⏳ Còn ${days} ngày tới Noel` : "🎉 Merry Christmas!";
-}
-setInterval(updateCountdown, 1000);
+/* 🖱️ Light follow mouse */
+const light = document.getElementById("light");
+document.addEventListener("mousemove", e => {
+  light.style.left = e.clientX + "px";
+  light.style.top = e.clientY + "px";
+});
 
 /* 🎄 Tree */
-function toggleTree() {
-  document.getElementById("tree").classList.toggle("tree-on");
-}
+const tree = document.getElementById("tree");
+tree.onclick = () => tree.classList.toggle("tree-on");
 
 /* 🎁 Gift */
-function openGift() {
-  document.getElementById("gift").classList.toggle("hidden");
-}
+document.getElementById("gift").onclick = () =>
+  document.getElementById("message").classList.toggle("hidden");
+
+/* ⏳ Countdown */
+const cd = document.getElementById("countdown");
+setInterval(() => {
+  const now = new Date();
+  const noel = new Date(now.getFullYear(), 11, 25);
+  const diff = noel - now;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  cd.textContent = days >= 0
+    ? `⏳ Còn ${days} ngày tới Noel`
+    : "🎉 Merry Christmas!";
+}, 1000);
+
+/* 🎵 Music – Web Audio API */
+let ctxAudio, osc, gain;
+let playing = false;
+
+document.getElementById("musicBtn").onclick = () => {
+  if (!playing) {
+    ctxAudio = new AudioContext();
+    osc = ctxAudio.createOscillator();
+    gain = ctxAudio.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.value = 523;
+    gain.gain.value = 0;
+
+    osc.connect(gain);
+    gain.connect(ctxAudio.destination);
+    osc.start();
+
+    gain.gain.linearRampToValueAtTime(0.12, ctxAudio.currentTime + 1);
+    document.getElementById("musicBtn").innerText = "🔇 Tắt nhạc";
+  } else {
+    gain.gain.linearRampToValueAtTime(0, ctxAudio.currentTime + 0.5);
+    setTimeout(() => ctxAudio.close(), 600);
+    document.getElementById("musicBtn").innerText = "🎵 Bật nhạc";
+  }
+  playing = !playing;
+};
