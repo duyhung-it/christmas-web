@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>🎄 Merry Christmas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <audio id="bgMusic" src="we-wish-you-a-merry-christmas-short-454802.mp3" loop></audio>
-
-
+<!-- Snow -->
 <canvas id="snow"></canvas>
+
+<!-- Light follow mouse -->
 <div id="light"></div>
 
 <header>
@@ -23,13 +24,16 @@
 </div>
 
 <div class="scene">
-  <div id="tree">🎄</div>
-  <div id="gift">🎁</div>
+  <div id="tree" title="Click để bật đèn">🎄</div>
+  <div id="gift" title="Click mở quà">🎁</div>
 </div>
 
 <div id="message" class="hidden">
-  🎅 Chúc bạn một mùa Giáng Sinh ấm áp và an lành!
+  🎅 Chúc bạn một mùa Giáng Sinh an lành & hạnh phúc!
 </div>
+
+<!-- Audio MP3 -->
+<audio id="bgMusic" src="we-wish-you-a-merry-christmas-short-454802.mp3" loop></audio>
 
 <script src="script.js"></script>
 </body>
