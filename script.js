@@ -85,3 +85,46 @@ musicBtn.addEventListener("click", () => {
     musicBtn.textContent = "🎵 Bật nhạc";
   }
 });
+
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+music.volume = 0.4;
+
+/* CLICK → PHÁT NHẠC */
+musicBtn.addEventListener("click", () => {
+  if (music.paused) {
+    music.play()
+      .then(() => {
+        musicBtn.innerText = "🔇 Tắt nhạc";
+      })
+      .catch(err => {
+        alert("Trình duyệt chặn phát nhạc 😥");
+        console.error(err);
+      });
+  } else {
+    music.pause();
+    musicBtn.innerText = "🎵 Bật nhạc";
+  }
+});
+
+/* TUYẾT RƠI */
+setInterval(() => {
+  const snow = document.createElement("div");
+  snow.className = "snow";
+  snow.innerText = "❄";
+  snow.style.left = Math.random() * window.innerWidth + "px";
+  snow.style.fontSize = Math.random() * 20 + 10 + "px";
+  snow.style.animationDuration = Math.random() * 3 + 2 + "s";
+
+  document.body.appendChild(snow);
+
+  setTimeout(() => snow.remove(), 5000);
+}, 200);
+
+/* Mouse move effect */
+document.addEventListener("mousemove", (e) => {
+  document.body.style.background =
+    `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, #1e3c72, #0b1d3a)`;
+});
+
